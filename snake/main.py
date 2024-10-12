@@ -11,7 +11,7 @@ screen = pygame.display.set_mode((CELL_NUMBER * CELL_SIZE, CELL_NUMBER * CELL_SI
 CLOCK = pygame.time.Clock()
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
-file = "2D_SNAKE-using-pygame/Snake/"
+file = "snake/"
 
 score_text = pygame.font.Font(file + "Font/ARIAL.TTF", 28)
 
@@ -113,7 +113,7 @@ class SNAKE() :
                 self.body = copy_block[:]
     
 
-class MAIN() :
+class GAME() :
 
     def __init__(self) :
         self.Snake = SNAKE()
@@ -138,7 +138,7 @@ class MAIN() :
                 
     def Draw(self) :
         
-        MAIN.Grass()
+        GAME.Grass()
         self.Snake.draw()
         self.Fruit.draw()
         self.draw_text()
@@ -177,49 +177,47 @@ class MAIN() :
         pygame.draw.rect(screen, (0, 0, 0), bg_rect, 1)
     
 
-Main = MAIN()
+def main() : 
+    Game = GAME()
 
-while not Main.game_over :
+    while not Game.game_over :
 
-    for event in pygame.event.get() :
+        for event in pygame.event.get() :
 
-        if event.type == pygame.QUIT :
-            pygame.quit()
-            sys.exit()
-        
-        if event.type == SCREEN_UPDATE :
-            Main.update()
+            if event.type == pygame.QUIT :
+                pygame.quit()
+                sys.exit()
 
-        elif event.type == pygame.KEYUP :
+            if event.type == SCREEN_UPDATE :
+                Game.update()
 
-            Main.Snake.first = True
+            elif event.type == pygame.KEYUP :
 
-            if event.key == pygame.K_UP :
-                if not Main.Snake.direction == Vector2(0, 1) :
-                    Main.Snake.direction = Vector2(0, -1)
+                Game.Snake.first = True
 
-            elif event.key == pygame.K_DOWN :
-                if not Main.Snake.direction == Vector2(0, -1) :
-                    Main.Snake.direction = Vector2(0, 1)
+                if event.key == pygame.K_UP :
+                    if not Game.Snake.direction == Vector2(0, 1) :
+                        Game.Snake.direction = Vector2(0, -1)
 
-            elif event.key == pygame.K_RIGHT :
-                if not Main.Snake.direction == Vector2(-1, 0) :
-                    Main.Snake.direction = Vector2(1, 0)
+                elif event.key == pygame.K_DOWN :
+                    if not Game.Snake.direction == Vector2(0, -1) :
+                        Game.Snake.direction = Vector2(0, 1)
 
-            elif event.key == pygame.K_LEFT :
-                if not Main.Snake.direction == Vector2(1, 0) :
-                    Main.Snake.direction = Vector2(-1, 0)
-            
-           
-    screen.fill((175, 215, 70))
-    Main.Draw()
-    
-    pygame.display.update()
+                elif event.key == pygame.K_RIGHT :
+                    if not Game.Snake.direction == Vector2(-1, 0) :
+                        Game.Snake.direction = Vector2(1, 0)
 
-    CLOCK.tick(60)
+                elif event.key == pygame.K_LEFT :
+                    if not Game.Snake.direction == Vector2(1, 0) :
+                        Game.Snake.direction = Vector2(-1, 0)
 
 
+        screen.fill((175, 215, 70))
+        Game.Draw()
 
+        pygame.display.update()
 
+        CLOCK.tick(60)
 
-
+if __name__ =="__main__" :
+    main()
